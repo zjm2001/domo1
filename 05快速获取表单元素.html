@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <form action="" method="post" id="f1">
+        <span>用户名</span><input type="text" name="uname">
+        <span>密码</span><input type="password" name="pass">
+        <input type="submit" value="提交">
+    </form>
+</body>
+<script>
+    $(function(){
+        $('#f1').on('submit',function(e){
+            e.preventDefault()
+            console.log($('#f1').serialize());
+        })
+    })
+</script>
+</html>

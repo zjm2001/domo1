@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/template-web.js"></script>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <!-- 1.导入模板引擎 -->
+    <!-- 再window全局多一个函数 叫  template('模板id',要渲染的对象) -->
+</head>
+<body>
+    <div class="box"></div>
+</body>
+<!-- 3定义模板   模板的html结构必须定义到script中 -->
+<script type="text/html" id="tpl">
+   <span>我是</span> <h2>{{name}}</h2><span>今年</span><h2>{{age}}</h2>
+   {{@Text}}
+   <ul>
+       {{each hobby}}
+       <li>{{$value}}</li>
+       {{/each}}
+   </ul>
+   <h3>{{time|dateFormat}}</h3>
+</script>
+<script>  
+ template.defaults.imports.dateFormat=function(date){
+       var  y=date.getFullYear();
+       var m =date.getMonth()+1;
+       var  d =date.getDate();
+       return y+':'+m+":"+d
+   }
+    // 2.定义需要渲染的数据
+    var data={
+        name:'zjm',
+        age:20,
+        Text:'<h2>大帅哥</h2>',
+        hobby:['吃饭','睡觉','敲代码' ],
+        time:new Date()
+    }
+    // 4.调用template
+    var  htmlstr=template('tpl',data)
+      $('.box').html(htmlstr)
+
+</script>
+</html>

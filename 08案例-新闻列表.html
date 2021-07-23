@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/news.css" />
+    <script src="./js/template-web.js"></script>
+    <script src="./jquery-3.4.1.min.js"></script>
+  </head>
+  <body>
+
+    <div id="news-list"></div>
+
+  </body>
+  <!-- 定义模板 -->
+  <script type="text/html" id="tpl-news">
+    {{each data}}
+  <div class="news-item">
+    <img class="thumb" src="{{'http://www.liulongbin.top:3006'+$value.img}}" alt="" />
+    <div class="right-box">
+      <h1 class="title">{{$value.title}}</h1>
+      <div class="tags">
+        {{each $value.tags}}
+        <span>{{$value}}</span>
+       {{/each}}
+      </div>
+      <div class="footer">
+        <div>
+          <span>{{$value.source}}</span>&nbsp;&nbsp;
+          <span>{{$value.time | dateFormat}}</span>
+        </div>
+        <span>评论数：{{$value.cmtcount}}</span>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</script>
+  <script>
+    //补0的函数
+    $(function(){  
+      function zero(n){
+          if(n<10){
+            return '0'+n;
+          }
+          else{
+            return n
+          }
+        }
+      //定义过滤器
+      template.defaults.imports.dateFormat=function(date){
+      
+        var dt=new Date(date);
+       var  y=dt.getFullYear();
+       var m =zero(dt.getMonth()+1);
+       var  d =zero(dt.getDate());
+       var hh=zero(dt.getHours())
+       var mm=zero(dt.getMinutes())
+       var ss=zero(dt.getSeconds())
+
+       return y+'-'+m+"-"+d+'-'+hh+':'+mm+':'+ss;
+   }
+      function getNewsList(){
+              //获取新闻列表数据
+      $.get('http://www.liulongbin.top:3006/api/news', function(res){
+        if(res.status !==200){
+          alert('获取失败');
+        }
+        for(var i=0;i<res.data.length;i++){
+          //把每一项tags属性 从字符串改造成字符串数组
+          res.data[i].tags=res.data[i].tags.split(',')
+        }
+        console.log(res);
+           var htmlstr =template('tpl-news',res)
+        $('#news-list').html(htmlstr)       
+      }
+      )}
+     
+    getNewsList()
+    })
+  </script>
+</html>

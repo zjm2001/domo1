@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <button class="btn">ajax的get请求</button>
+    <button class="btn1">ajax的post请求</button>
+</body>
+<script>
+    $(function(){
+        $('.btn').on('click',function(){
+          $.ajax({
+              type:'get',
+              url:'http://www.liulongbin.top:3006/api/getbooks',
+              data:{id:1},
+              success:res=>console.log(res)
+          })
+         
+        })
+        $('.btn1').on('click',function(){
+          $.ajax({
+              type:'post',
+              url:'http://www.liulongbin.top:3006/api/addbook',
+              data:{ bookname:'春旗',author:'啊飒',publisher:'弱智儿童出版社'},
+              success:res=>console.log(res)
+          })
+         
+        })
+    })
+
+</script>
+</html>
